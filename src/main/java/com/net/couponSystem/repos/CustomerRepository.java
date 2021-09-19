@@ -19,6 +19,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     Customer findByEmailAndPassword(String email, String password);
 
+
     @Query(value = "SELECT customer FROM customers where name = ?1", nativeQuery = true)
     Customer findCouponsByName(String name);
 }

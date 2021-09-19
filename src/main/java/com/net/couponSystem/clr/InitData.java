@@ -6,6 +6,7 @@ import com.net.couponSystem.repos.CompanyRepository;
 import com.net.couponSystem.repos.CouponRepository;
 import com.net.couponSystem.repos.CustomerRepository;
 import com.net.couponSystem.security.ClientType;
+import com.net.couponSystem.services.CompanyService;
 import com.net.couponSystem.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -24,6 +25,7 @@ public class InitData implements CommandLineRunner {
     private final CustomerRepository customerRepository;
     private final CouponRepository couponRepository;
     private final AdminRepository adminRepository;
+    private final CompanyService companyService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -40,6 +42,18 @@ public class InitData implements CommandLineRunner {
                 .price(10)
                 .build();
 
+        Coupon c2 = Coupon.builder()
+                .amount(10)
+                .category(Category.ELECTRICITY)
+                .companyID(2)
+                .description("5% off")
+                .startDate(DateUtils.toSqlDate(LocalDateTime.now()))
+                .endDate(DateUtils.toSqlDate(LocalDateTime.now().plusWeeks(1)))
+                .image("tesla.jpg")
+                .title("5% off for tesla car")
+                .price(10)
+                .build();
+
         Company cocaCola = Company.builder()
                 .firstName("coca cola")
                 .password("coca123")
@@ -48,16 +62,24 @@ public class InitData implements CommandLineRunner {
                 .coupon(c1)
                 .build();
 
+        Company tesla = Company.builder()
+                .firstName("tesla")
+                .password("tesla")
+                .email("tesla@gmail.com")
+                .clientType(ClientType.COMPANY)
+                .coupon(c2)
+                .build();
+
 
         companyRepository.save(cocaCola);
-        companyRepository.findAll().forEach(company -> System.out.println(company));
+        companyRepository.save(tesla);
 
         Customer ben = Customer.builder()
                 .firstName("ben")
                 .lastName("miller")
                 .email("ben@gmail.com")
                 .password("12345")
-                .coupon(c1)
+                .coupon(c2)
                 .clientType(ClientType.CUSTOMER)
                 .build();
 
@@ -70,6 +92,7 @@ public class InitData implements CommandLineRunner {
 
         customerRepository.save(ben);
         adminRepository.save(admin);
+
 
     }
 }

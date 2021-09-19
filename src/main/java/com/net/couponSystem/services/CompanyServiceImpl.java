@@ -1,10 +1,9 @@
 package com.net.couponSystem.services;
 
 import com.net.couponSystem.beans.Company;
+import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.beans.Customer;
 import com.net.couponSystem.exceptions.CouponsException;
-import com.net.couponSystem.repos.CompanyRepository;
-import com.net.couponSystem.repos.CustomerRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Scope;
@@ -67,21 +66,7 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
         return companyRepository.findAll();
     }
 
-    @Override
-    public void addCustomer(Customer customer) throws CouponsException {
-        if (!customerRepository.existsByEmail(customer.getEmail()))
-            throw new CouponsException("sorry this email is already exist");
 
-        customerRepository.save(customer);
-    }
-
-    @Override
-    public void updateCustomer(Customer customer) throws CouponsException {
-        if (customerRepository.existsById(customer.getId())) {
-            throw new CouponsException("this id is already used");
-        }
-        customerRepository.saveAndFlush(customer);
-    }
 
     @Override
     public void deleteCustomer(int id) {
@@ -96,5 +81,9 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
     @Override
     public Customer getOneCustomer(int customerID) {
         return customerRepository.getOne(customerID);
+    }
+
+    public List<Coupon> getCouponsCompanyByID(int companyID){
+        return companyRepository.findById(companyID).get().getCoupons();
     }
 }

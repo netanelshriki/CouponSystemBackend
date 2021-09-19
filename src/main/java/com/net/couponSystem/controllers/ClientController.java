@@ -40,7 +40,7 @@ public class ClientController {
         String token = loginManager.login(requestLogin.getEmail(), requestLogin.getPassword(), requestLogin.getClientType());
         Information information = tokenManager.getMap().get(token);
         System.out.println("from client info------->" + information);
-        ResponseLogin responseLogin =new ResponseLogin();
+        ResponseLogin responseLogin = new ResponseLogin();
         responseLogin.setClientID(information.getClientID());
         responseLogin.setClientType(information.getClientType());
         responseLogin.setName(information.getName());
@@ -48,6 +48,8 @@ public class ClientController {
         System.out.println("from client ---------->"+responseLogin);
         return new ResponseEntity<>(responseLogin,HttpStatus.CREATED);
     }
+
+
 }
 
 

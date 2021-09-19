@@ -10,6 +10,7 @@ import com.net.couponSystem.security.ClientType;
 import com.net.couponSystem.services.AdminService;
 import com.net.couponSystem.services.ClientService;
 import com.net.couponSystem.services.CustomerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,32 +19,66 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @RestController
-@RequestMapping("admin/")
-public class AdminController  {
+@RequestMapping("admin")
+@RequiredArgsConstructor
+public class AdminController {
 
+    private final AdminService adminService;
 
+    @PostMapping("customers")
+    public ResponseEntity<?> addCustomer(@RequestHeader("Authorization") String token, @RequestBody Customer customer) throws CouponsException {
+        adminService.addCustomer(customer);
+        return new ResponseEntity<>(customer, HttpStatus.CREATED);
+    }
 
-//    @GetMapping("customers")
-//    @ResponseStatus(HttpStatus.OK)
-//    public ResponseEntity<?> getAllCustomers() {
-//        return new ResponseEntity<>(customerRepository.findAll(), HttpStatus.OK);
-//    }
-//
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @DeleteMapping("customers/{id}")
-//    public void deleteCustomer(@PathVariable int id) {
-//        customerRepository.deleteById(id);
-//    }
-//
-//    @PutMapping("customers/update")
-//    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer) throws CouponsException {
-//        adminService.updateCustomer(customer);
-//        return new ResponseEntity<>(customer, HttpStatus.OK);
-//    }
-//
-//    @GetMapping("companies")
-//    public ResponseEntity<?> getAllCompanies() {
-//        return new ResponseEntity<>(companyRepository.findAll(), HttpStatus.OK);
-//    }
+    @GetMapping("customers")
+    public ResponseEntity<?> getAllCustomers(@RequestHeader("Authorization") String token) {
+        return new ResponseEntity<>(adminService.getAllCustomers(), HttpStatus.OK);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("customers/{id}")
+    public void deleteCustomer(@RequestHeader("Authorization") String token, @PathVariable int id) {
+        adminService.deleteCustomer(id);
+    }
+
+    @GetMapping("customers/{customerID}")
+    public ResponseEntity<?> getOneCustomer(@RequestHeader("Authorization") String token, @PathVariable int customerID){
+        return new ResponseEntity<>(adminService.getOneCustomer(customerID),HttpStatus.OK);
+    }
+
+    @PutMapping("customers")
+    public ResponseEntity<?> updateCustomer(@RequestHeader("Authorization") String token, @RequestBody Customer customer) throws CouponsException {
+        adminService.updateCustomer(customer);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
+
+    @PostMapping("companies")
+    public ResponseEntity<?> addCompany(@RequestHeader("Authorization") String token, @RequestBody Company company) throws CouponsException {
+        adminService.addCompany(company);
+        return new ResponseEntity<>(company,HttpStatus.OK);
+    }
+
+    @GetMapping("companies")
+    public ResponseEntity<?> getAllCompanies(@RequestHeader("Authorization") String token) {
+        return new ResponseEntity<>(adminService.getAllCompanies(), HttpStatus.OK);
+    }
+
+    @PutMapping("companies")
+    public ResponseEntity<?> updateCompany(@RequestHeader("Authorization") String token, @RequestBody Company company) throws CouponsException {
+        adminService.updateCompany(company);
+        return new ResponseEntity<>(company,HttpStatus.OK);
+    }
+
+    @GetMapping("company/{companyID}")
+    public ResponseEntity<?> getOneCompany(@RequestHeader("Authorization") String token,@PathVariable int companyID){
+        return new ResponseEntity<>(adminService.getOneCompany(companyID),HttpStatus.OK);
+    }
+
+    @DeleteMapping("companies/{companyID}")
+    public ResponseEntity<?> deleteOneCompany(@RequestHeader("Authorization") String token, @PathVariable int companyID){
+        adminService.deleteCompany(companyID);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

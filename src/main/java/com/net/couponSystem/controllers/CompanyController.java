@@ -22,7 +22,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("company/")
+@RequestMapping("company")
 public class CompanyController{
 
     private final TokenManager tokenManager;
@@ -32,8 +32,8 @@ public class CompanyController{
 
     @GetMapping("coupons")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<Customer> getCompanyCoupons(@RequestHeader ("Authorization") String token   ) {
-        return companyService.getAllCustomers();
+    public List<Coupon> getCompanyCoupons(@RequestHeader ("Authorization") String token, @RequestParam int companyID) {
+        return companyService.getCouponsCompanyByID(companyID);
     }
 
 }

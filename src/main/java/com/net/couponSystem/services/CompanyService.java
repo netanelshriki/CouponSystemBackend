@@ -1,6 +1,7 @@
 package com.net.couponSystem.services;
 
 import com.net.couponSystem.beans.Company;
+import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.beans.Customer;
 import com.net.couponSystem.exceptions.CouponsException;
 import org.springframework.stereotype.Service;
@@ -14,11 +15,10 @@ public interface CompanyService {
     void deleteCompanyById(int companyID);
     Company getOneCompany(int CompanyID);
     List<Company> getAllCompanies();
-    void addCustomer(Customer customer) throws CouponsException;
-    void updateCustomer(Customer customer) throws CouponsException;
     void deleteCustomer(int id);
     List<Customer> getAllCustomers();
     Customer getOneCustomer(int customerID);
+    List<Coupon> getCouponsCompanyByID(int companyID);
 
 
 }

@@ -1,32 +1,40 @@
 package com.net.couponSystem.controllers;
 
-import com.net.couponSystem.beans.Category;
-import com.net.couponSystem.beans.Customer;
-import com.net.couponSystem.controllers.model.LogoutDetails;
-import com.net.couponSystem.dto.request.RequestLogin;
+
+import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.exceptions.CouponsException;
-import com.net.couponSystem.services.ClientService;
-import com.net.couponSystem.services.CompanyService;
 import com.net.couponSystem.services.CustomerService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @RestController
-@RequestMapping("customer/")
+@RequestMapping("customer")
 @RequiredArgsConstructor
 public class CustomerController {
 
     private final CustomerService customerService;
 
     @GetMapping("coupons")
-    public ResponseEntity<?> getCustomerCoupon() {
-        return new ResponseEntity<>(customerService.getCustomerCoupon(), HttpStatus.OK);
+    public ResponseEntity<?> getCustomerCoupon(@RequestHeader ("Authorization") String token,@RequestParam int customerId) {
+        return new ResponseEntity<>(customerService.getCustomerCoupon(customerId), HttpStatus.OK);
     }
 
+    @GetMapping("coupons/")
+    public ResponseEntity<?> getCouponsByMaxPrize(@RequestHeader ("Authorization") String token,@RequestParam int prize,@RequestParam int customerId){
+        return new ResponseEntity<>(customerService.getCouponsByMaxPrice(prize,customerId),HttpStatus.OK);    }
+
+        @PostMapping("buy")
+        public ResponseEntity<?> buyCoupon(@RequestHeader ("Authorization") String token, @RequestBody Coupon coupon, @RequestParam int customerId) throws CouponsException {
+        customerService.buyCoupon(coupon, customerId);
+        return new ResponseEntity<>(customerService.getCustomerDetails(customerId),HttpStatus.CREATED);
+        }
+
+        @GetMapping("details")
+        public ResponseEntity<?> getCustomerDetails(@RequestHeader ("Authorization") String token,@RequestParam int customerId){
+        return new ResponseEntity<>(customerService.getCustomerDetails(customerId),HttpStatus.OK);
+        }
 
 }
