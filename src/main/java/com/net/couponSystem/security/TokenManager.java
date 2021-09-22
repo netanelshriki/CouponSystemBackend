@@ -26,7 +26,7 @@ public class TokenManager {
         Information info = Information.builder()
                 .time(LocalDateTime.now())
                 .clientType(clientType)
-                .clientID(clientID)
+                .id(clientID)
                 .name(name)
                .clientService(clientService)
                 .build();
@@ -40,7 +40,7 @@ public class TokenManager {
         map.remove(token);
     }
     public void removePreviewsTokenById(int clientId) {
-        map.entrySet().removeIf(valueToRemove -> valueToRemove.getValue().getClientID() == clientId);
+        map.entrySet().removeIf(valueToRemove -> valueToRemove.getValue().getId() == clientId);
     }
 
 

@@ -1,6 +1,7 @@
 package com.net.couponSystem.beans;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +26,9 @@ public class Coupon {
     private Category category;
     private String title;
     private String description;
+//    @JsonFormat( pattern = "dd/MM/yyyy")
     private Date startDate;
+//    @JsonFormat( pattern = "dd/MM/yyyy")
     private Date endDate;
     private int amount;
     private double price;

@@ -1,5 +1,6 @@
 package com.net.couponSystem.services;
 
+import com.net.couponSystem.beans.Category;
 import com.net.couponSystem.beans.Company;
 import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.beans.Customer;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.LoginException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -61,22 +63,6 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
         return companyRepository.getOne(companyID);
     }
 
-    @Override
-    public List<Company> getAllCompanies() {
-        return companyRepository.findAll();
-    }
-
-
-
-    @Override
-    public void deleteCustomer(int id) {
-        customerRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
-    }
 
     @Override
     public Customer getOneCustomer(int customerID) {
@@ -85,5 +71,31 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
 
     public List<Coupon> getCouponsCompanyByID(int companyID){
         return companyRepository.findById(companyID).get().getCoupons();
+    }
+
+    @Override
+    public Company getCompanyDetails(int companyID) {
+        return companyRepository.getOne(companyID);
+    }
+
+    @Override
+    public List<Coupon> getCouponsByMaxPrice(int maxPrice, int companyId) {
+        List<Coupon> coupons = new ArrayList<>();
+        for (Coupon coupon : companyRepository.getOne(companyId).getCoupons()) {
+            if (coupon.getPrice() < maxPrice) {
+                coupons.add(coupon);
+            }
+        }
+        return coupons;
+    }
+
+    public List<Coupon> getCouponsCompanyByCategory(Category category, int companyId){
+        List<Coupon> coupons = new ArrayList<>();
+        for (Coupon coupon:companyRepository.getOne(companyId).getCoupons()) {
+            if (coupon.getCategory()==category){
+                coupons.add(coupon);
+            }
+        }
+        return coupons;
     }
 }

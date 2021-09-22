@@ -83,6 +83,14 @@ public class InitData implements CommandLineRunner {
                 .clientType(ClientType.CUSTOMER)
                 .build();
 
+        Customer john = Customer.builder()
+                .firstName("john")
+                .lastName("robinson")
+                .email("john@gmail.com")
+                .password("12345")
+                .clientType(ClientType.CUSTOMER)
+                .build();
+
         Admin admin = Admin.builder()
                 .clientType(ClientType.ADMIN)
                 .password("admin")
@@ -91,6 +99,7 @@ public class InitData implements CommandLineRunner {
                 .build();
 
         customerRepository.save(ben);
+        customerRepository.save(john);
         adminRepository.save(admin);
 
 

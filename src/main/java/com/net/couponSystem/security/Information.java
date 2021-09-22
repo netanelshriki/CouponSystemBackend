@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Information {
 
-    private int clientID;
+    private int id;
     private ClientService clientService;
     private LocalDateTime time;
     private ClientType clientType;

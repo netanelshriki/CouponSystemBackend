@@ -9,8 +9,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Data
+@Builder
 public class ResponseLogin {
-    private int clientID;
+    private int id;
     private String name;
     @Enumerated(EnumType.STRING)
     private ClientType clientType;

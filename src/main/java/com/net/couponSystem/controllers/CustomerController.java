@@ -2,6 +2,7 @@ package com.net.couponSystem.controllers;
 
 
 import com.net.couponSystem.beans.Coupon;
+import com.net.couponSystem.beans.Customer;
 import com.net.couponSystem.exceptions.CouponsException;
 import com.net.couponSystem.services.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,8 @@ public class CustomerController {
 
     @GetMapping("coupons/")
     public ResponseEntity<?> getCouponsByMaxPrize(@RequestHeader ("Authorization") String token,@RequestParam int prize,@RequestParam int customerId){
-        return new ResponseEntity<>(customerService.getCouponsByMaxPrice(prize,customerId),HttpStatus.OK);    }
+        return new ResponseEntity<>(customerService.getCouponsByMaxPrice(prize,customerId),HttpStatus.OK);
+    }
 
         @PostMapping("buy")
         public ResponseEntity<?> buyCoupon(@RequestHeader ("Authorization") String token, @RequestBody Coupon coupon, @RequestParam int customerId) throws CouponsException {

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.security.auth.login.LoginException;
 
 @RestController
-@RequestMapping(value ="client")
+@RequestMapping(value = "client")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ClientController {
@@ -40,13 +40,15 @@ public class ClientController {
         String token = loginManager.login(requestLogin.getEmail(), requestLogin.getPassword(), requestLogin.getClientType());
         Information information = tokenManager.getMap().get(token);
         System.out.println("from client info------->" + information);
-        ResponseLogin responseLogin = new ResponseLogin();
-        responseLogin.setClientID(information.getClientID());
-        responseLogin.setClientType(information.getClientType());
-        responseLogin.setName(information.getName());
-        responseLogin.setToken(token);
-        System.out.println("from client ---------->"+responseLogin);
-        return new ResponseEntity<>(responseLogin,HttpStatus.CREATED);
+
+        ResponseLogin responseLogin = ResponseLogin.builder()
+                .id(information.getId())
+                .clientType(information.getClientType())
+                .name(information.getName())
+                .token(token)
+                .build();
+        System.out.println("from client ---------->" + responseLogin);
+        return new ResponseEntity<>(responseLogin, HttpStatus.CREATED);
     }
 
 
