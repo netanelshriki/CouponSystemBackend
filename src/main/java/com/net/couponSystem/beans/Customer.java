@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "customers")
-//@Scope("prototype")
+@Scope("prototype")
 public class Customer {
 
     @Id

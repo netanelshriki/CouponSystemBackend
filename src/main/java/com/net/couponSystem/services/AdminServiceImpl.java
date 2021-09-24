@@ -20,7 +20,7 @@ public class AdminServiceImpl extends ClientService implements AdminService {
     @Override
     public void addCompany(Company company) throws CouponsException {
         if (companyRepository.existsByFirstNameAndPassword(company.getFirstName(), company.getPassword())) {
-            throw new CouponsException("sorry this name already exist.");
+            throw new CouponsException("sorry this name already exist");
         }
         companyRepository.save(company);
     }

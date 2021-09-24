@@ -79,7 +79,7 @@ public class InitData implements CommandLineRunner {
                 .lastName("miller")
                 .email("ben@gmail.com")
                 .password("12345")
-                .coupon(c2)
+//                .coupon(c2)
                 .clientType(ClientType.CUSTOMER)
                 .build();
 
@@ -87,6 +87,22 @@ public class InitData implements CommandLineRunner {
                 .firstName("john")
                 .lastName("robinson")
                 .email("john@gmail.com")
+                .password("12345")
+                .clientType(ClientType.CUSTOMER)
+                .build();
+
+        Customer scott = Customer.builder()
+                .firstName("scott")
+                .lastName("robinson")
+                .email("scott@gmail.com")
+                .password("12345")
+                .clientType(ClientType.CUSTOMER)
+                .build();
+
+        Customer amili = Customer.builder()
+                .firstName("amili")
+                .lastName("robinson")
+                .email("amili@gmail.com")
                 .password("12345")
                 .clientType(ClientType.CUSTOMER)
                 .build();
@@ -99,6 +115,8 @@ public class InitData implements CommandLineRunner {
                 .build();
 
         customerRepository.save(ben);
+        customerRepository.save(scott);
+        customerRepository.save(amili);
         customerRepository.save(john);
         adminRepository.save(admin);
 

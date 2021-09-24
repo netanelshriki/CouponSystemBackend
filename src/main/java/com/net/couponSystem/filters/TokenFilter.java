@@ -36,6 +36,7 @@ public class TokenFilter implements Filter {
                 ||url.endsWith("home")
                 ||url.endsWith("/")
                 ||url.endsWith("*")
+
         )
         {
             filterChain.doFilter(servletRequest, servletResponse);

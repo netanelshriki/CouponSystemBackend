@@ -31,6 +31,7 @@ public class ClientController {
 
     private final LoginManager loginManager;
     private final CustomerRepository customerRepository;
+    private final CouponRepository couponRepository;
 
     @Autowired
     private TokenManager tokenManager;
@@ -49,6 +50,11 @@ public class ClientController {
                 .build();
         System.out.println("from client ---------->" + responseLogin);
         return new ResponseEntity<>(responseLogin, HttpStatus.CREATED);
+    }
+
+    @GetMapping("coupons")
+    public ResponseEntity<?> allCoupons(){
+        return new ResponseEntity<>(couponRepository.findAll(),HttpStatus.OK);
     }
 
 

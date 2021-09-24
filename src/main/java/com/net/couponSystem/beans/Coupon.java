@@ -20,6 +20,7 @@ import java.sql.Date;
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     private int companyID;
     @Enumerated(EnumType.STRING)
