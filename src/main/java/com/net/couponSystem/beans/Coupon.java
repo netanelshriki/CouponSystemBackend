@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.sql.Date;
 
-
 @Data
 @Entity
 @AllArgsConstructor
@@ -20,22 +19,22 @@ import java.sql.Date;
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
     private int companyID;
     @Enumerated(EnumType.STRING)
     private Category category;
     private String title;
     private String description;
-//    @JsonFormat( pattern = "dd/MM/yyyy")
+    //    @JsonFormat( pattern = "dd/MM/yyyy")
     private Date startDate;
-//    @JsonFormat( pattern = "dd/MM/yyyy")
+    //    @JsonFormat( pattern = "dd/MM/yyyy")
     private Date endDate;
     private int amount;
     private double price;
-    private String image;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Image image;
 
-    public Coupon(int companyID, Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
+    public Coupon(int companyID, Category category, String title, String description, Date startDate, Date endDate, int amount, double price, Image image) {
         this.companyID = companyID;
         this.category = category;
         this.title = title;
@@ -45,5 +44,4 @@ public class Coupon {
         this.amount = amount;
         this.price = price;
         this.image = image;
-    }
-}
+    }}

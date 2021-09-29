@@ -32,7 +32,9 @@ public class TokenFilter implements Filter {
 
         if (    url.endsWith("login")
                 || url.endsWith("favicon.ico")
+                || url.endsWith("coupons")
                 || url.endsWith("signup")
+                || url.endsWith("coupons/images/{uuid}")
                 ||url.endsWith("home")
                 ||url.endsWith("/")
                 ||url.endsWith("*")

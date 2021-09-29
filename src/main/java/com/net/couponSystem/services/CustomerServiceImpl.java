@@ -60,18 +60,20 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
     }
 
     @Override
-    public Coupon buyCoupon(Coupon coupon) throws CouponsException {
-        Customer customer = customerRepository.findById(customerID).orElseThrow(
-                () -> new CouponsException("Error,customer by the id: " + customerID + " does not exists"));
+    public Coupon buyCoupon(Coupon coupon, int customerId) throws CouponsException {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(
+                () -> new CouponsException("Error,customer by the id: " + customerId + " does not exists"));
         List<Coupon> customerCoupons = customer.getCoupons();
         System.out.println("customer: "+customer);
         System.out.println("customer coupons: "+customerCoupons);
         int couponId = coupon.getId();
-        coupon = couponRepository.findById(couponId)
-                .orElseThrow(() -> new CouponsException("there is no coupon by the id: " + couponId));
-        if (coupon.getEndDate().before(coupon.getStartDate())) {
-            throw new CouponsException("coupon by the id:" + couponId + " has already expired ");
-        }
+      //  System.out.println(couponRepository.getOne(couponId));
+       Coupon couponToBuy = couponRepository.getOne(couponId);
+              //  .orElseThrow(() -> new CouponsException("there is no coupon by the id: " + customerId));
+        System.out.println(couponToBuy);
+//        if (coupon.getEndDate().before(coupon.getStartDate())) {
+//            throw new CouponsException("coupon by the id:" + couponId + " has already expired ");
+//        }
         if (coupon.getAmount() <= 0) {
             throw new CouponsException("the coupon by the id: " + couponId + "is sold out");
         }

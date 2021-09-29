@@ -5,11 +5,14 @@ import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.beans.Customer;
 import com.net.couponSystem.controllers.model.BuyCoupon;
 import com.net.couponSystem.exceptions.CouponsException;
+import com.net.couponSystem.mapper.CouponDTO;
+import com.net.couponSystem.mapper.CouponMapper;
 import com.net.couponSystem.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +24,7 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+    private final CouponMapper couponMapper;
 
     @GetMapping("coupons")
     public ResponseEntity<?> getCustomerCoupon(@RequestHeader("Authorization") String token, @RequestParam int customerId) {
@@ -32,9 +36,17 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.getCouponsByMaxPrice(prize, customerId), HttpStatus.OK);
     }
 
-    @PostMapping("buy")
-    public ResponseEntity<?> buyCoupon(@RequestHeader("Authorization") String token, @RequestBody Coupon coupon) throws CouponsException {
-        customerService.buyCoupon(coupon);
+    @PostMapping(    value = "buy"
+//            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+//            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public ResponseEntity<?> buyCoupon(@RequestHeader("Authorization") String token,@RequestBody CouponDTO couponDTO, @RequestParam int customerId) throws Exception {
+        System.out.println("coupon dto:"+couponDTO);
+
+        Coupon coupon = couponMapper.toDao(couponDTO);
+        System.out.println("coupon dto:"+couponDTO);
+        System.out.println("coupon: "+coupon);
+        customerService.buyCoupon(coupon, customerId);
         return new ResponseEntity<>(coupon, HttpStatus.CREATED);
     }
 
@@ -43,5 +55,6 @@ public class CustomerController {
     public ResponseEntity<?> getCustomerDetails(@RequestHeader("Authorization") String token, @RequestParam int customerId) {
         return new ResponseEntity<>(customerService.getCustomerDetails(customerId), HttpStatus.OK);
     }
+
 
 }

@@ -15,6 +15,6 @@ public interface CustomerService {
     boolean login(String email, String password) throws LoginException;
     List<Coupon> getCustomerCoupon(int customerId);
     List<Coupon> getCouponsByMaxPrice(int maxPrice,int customerId);
-    Coupon buyCoupon(Coupon coupon) throws CouponsException;
+    Coupon buyCoupon(Coupon coupon, int customerId) throws CouponsException;
     Customer getCustomerDetails(int customerId);
 }
