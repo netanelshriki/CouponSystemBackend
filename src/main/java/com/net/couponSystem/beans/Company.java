@@ -25,7 +25,7 @@ public class Company {
     @Enumerated(EnumType.STRING)
     private ClientType clientType;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @Singular
     private List<Coupon> coupons = new ArrayList<>();
 

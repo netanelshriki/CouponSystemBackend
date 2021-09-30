@@ -30,36 +30,36 @@ public class InitData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Coupon c1 = Coupon.builder()
-                .amount(10)
-                .category(Category.FOOD)
-                .companyID(1)
-                .description("12% off")
-                .startDate(DateUtils.toSqlDate(LocalDateTime.now()))
-                .endDate(DateUtils.toSqlDate(LocalDateTime.now().plusWeeks(1)))
-                .image("cola.jpg")
-                .title("12% off for coca cola")
-                .price(10)
-                .build();
-
-        Coupon c2 = Coupon.builder()
-                .amount(10)
-                .category(Category.ELECTRICITY)
-                .companyID(2)
-                .description("5% off")
-                .startDate(DateUtils.toSqlDate(LocalDateTime.now()))
-                .endDate(DateUtils.toSqlDate(LocalDateTime.now().plusWeeks(1)))
-                .image("tesla.jpg")
-                .title("5% off for tesla car")
-                .price(10)
-                .build();
+//        Coupon c1 = Coupon.builder()
+//                .amount(10)
+//                .category(Category.FOOD)
+//                .companyID(1)
+//                .description("12% off")
+//                .startDate(DateUtils.toSqlDate(LocalDateTime.now()))
+//                .endDate(DateUtils.toSqlDate(LocalDateTime.now().plusWeeks(1)))
+//                //.image("cola.jpg")
+//                .title("12% off for coca cola")
+//                .price(10)
+//                .build();
+//
+//        Coupon c2 = Coupon.builder()
+//                .amount(10)
+//                .category(Category.ELECTRICITY)
+//                .companyID(2)
+//                .description("5% off")
+//                .startDate(DateUtils.toSqlDate(LocalDateTime.now()))
+//                .endDate(DateUtils.toSqlDate(LocalDateTime.now().plusWeeks(1)))
+//              //  .image("tesla.jpg")
+//                .title("5% off for tesla car")
+//                .price(10)
+//                .build();
 
         Company cocaCola = Company.builder()
                 .firstName("coca cola")
                 .password("coca123")
                 .email("coca123@gmail.com")
                 .clientType(ClientType.COMPANY)
-                .coupon(c1)
+             //   .coupon(c1)
                 .build();
 
         Company tesla = Company.builder()
@@ -67,7 +67,7 @@ public class InitData implements CommandLineRunner {
                 .password("tesla")
                 .email("tesla@gmail.com")
                 .clientType(ClientType.COMPANY)
-                .coupon(c2)
+             //   .coupon(c2)
                 .build();
 
 
@@ -79,7 +79,31 @@ public class InitData implements CommandLineRunner {
                 .lastName("miller")
                 .email("ben@gmail.com")
                 .password("12345")
-                .coupon(c2)
+//                .coupon(c2)
+                .clientType(ClientType.CUSTOMER)
+                .build();
+
+        Customer john = Customer.builder()
+                .firstName("john")
+                .lastName("robinson")
+                .email("john@gmail.com")
+                .password("12345")
+                .clientType(ClientType.CUSTOMER)
+                .build();
+
+        Customer scott = Customer.builder()
+                .firstName("scott")
+                .lastName("robinson")
+                .email("scott@gmail.com")
+                .password("12345")
+                .clientType(ClientType.CUSTOMER)
+                .build();
+
+        Customer amili = Customer.builder()
+                .firstName("amili")
+                .lastName("robinson")
+                .email("amili@gmail.com")
+                .password("12345")
                 .clientType(ClientType.CUSTOMER)
                 .build();
 
@@ -91,6 +115,9 @@ public class InitData implements CommandLineRunner {
                 .build();
 
         customerRepository.save(ben);
+        customerRepository.save(scott);
+        customerRepository.save(amili);
+        customerRepository.save(john);
         adminRepository.save(admin);
 
 
