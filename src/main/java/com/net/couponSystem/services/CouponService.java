@@ -10,4 +10,6 @@ public interface CouponService {
     CouponDTO addCoupon(CouponPayload payload) throws Exception;
     List<CouponDTO> getAllCoupons();
     void deleteCoupon(int id);
+    void updateCoupon(int id,CouponDTO coupon) throws Exception;
+
 }

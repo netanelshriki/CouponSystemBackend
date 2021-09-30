@@ -1,5 +1,6 @@
 package com.net.couponSystem.services;
 
+import com.net.couponSystem.beans.Category;
 import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.beans.Customer;
 import com.net.couponSystem.exceptions.CouponsException;
@@ -59,6 +60,17 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
         List<CouponDTO> coupons = new ArrayList<>();
         for (Coupon coupon : customerRepository.getOne(customerId).getCoupons()) {
             if (coupon.getPrice() < maxPrice) {
+                coupons.add(couponMapper.toDto(coupon));
+            }
+        }
+        return coupons;
+    }
+
+    @Override
+    public List<CouponDTO> getCouponsByCategory(Category category, int customerId) {
+        List<CouponDTO> coupons = new ArrayList<>();
+        for (Coupon coupon : customerRepository.getOne(customerId).getCoupons()) {
+            if (coupon.getCategory().equals(category)) {
                 coupons.add(couponMapper.toDto(coupon));
             }
         }

@@ -24,4 +24,5 @@ public interface CompanyService {
     List<CouponDTO> getCouponsCompanyByCategory(Category category, int companyId);
 
 
+
 }

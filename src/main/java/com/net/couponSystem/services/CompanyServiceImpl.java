@@ -100,6 +100,7 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
         return coupons;
     }
 
+    @Override
     public List<CouponDTO> getCouponsCompanyByCategory(Category category, int companyId) {
         List<CouponDTO> coupons = new ArrayList<>();
         for (Coupon coupon : companyRepository.getOne(companyId).getCoupons()) {

@@ -3,6 +3,7 @@ package com.net.couponSystem.services;
 import com.net.couponSystem.beans.Company;
 import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.controllers.model.CouponPayload;
+import com.net.couponSystem.exceptions.CouponsException;
 import com.net.couponSystem.mapper.CouponDTO;
 import com.net.couponSystem.mapper.CouponMapper;
 import com.net.couponSystem.repos.CompanyRepository;
@@ -44,18 +45,32 @@ public class CouponServiceImpl implements CouponService {
         UUID uuid = imageService.addImage(payload.getImage().getBytes());
 
         couponDTO.setImageID(uuid);
-        System.out.println("==================================================");
-        System.out.println("company before adding coupon: " + companyRepository.getOne(payload.getCompanyID()));
+//        System.out.println("==================================================");
+//        System.out.println("company before adding coupon: " + companyRepository.getOne(payload.getCompanyID()));
         Coupon coupon = couponMapper.toDao(couponDTO);
         Company company = companyRepository.getOne(payload.getCompanyID());
         List<Coupon> coupons = new ArrayList<>();
         coupons.add(coupon);
         company.setCoupons(coupons);
         companyRepository.save(company);
-        System.out.println("==================================================");
-        System.out.println("company after adding coupon: " + companyRepository.getOne(payload.getCompanyID()));
+//        System.out.println("==================================================");
+//        System.out.println("company after adding coupon: " + companyRepository.getOne(payload.getCompanyID()));
 
         return couponDTO;
+    }
+
+    @Override
+    public void updateCoupon(int id,CouponDTO coupon) throws Exception {
+
+        if (!couponRepository.existsById(id)) {
+            throw new CouponsException("there is no coupon with id " + id);
+        }
+
+        coupon.setId(id);
+        Coupon toUpdate = couponMapper.toDao(coupon);
+        couponRepository.saveAndFlush(toUpdate);
+
+
     }
 
     public List<CouponDTO> getAllCoupons() {

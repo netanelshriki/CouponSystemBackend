@@ -1,5 +1,6 @@
 package com.net.couponSystem.services;
 
+import com.net.couponSystem.beans.Category;
 import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.beans.Customer;
 import com.net.couponSystem.exceptions.CouponsException;
@@ -18,4 +19,5 @@ public interface CustomerService {
     List<CouponDTO> getCouponsByMaxPrice(int maxPrice,int customerId);
     Coupon buyCoupon(Coupon coupon, int customerId) throws CouponsException;
     Customer getCustomerDetails(int customerId);
+    List<CouponDTO> getCouponsByCategory(Category category, int customerId);
 }

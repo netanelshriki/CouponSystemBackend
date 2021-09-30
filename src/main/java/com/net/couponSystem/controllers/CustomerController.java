@@ -4,6 +4,7 @@ package com.net.couponSystem.controllers;
 import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.beans.Customer;
 import com.net.couponSystem.controllers.model.BuyCoupon;
+import com.net.couponSystem.controllers.model.CustomerCouponsByCategory;
 import com.net.couponSystem.dto.request.RequestLogin;
 import com.net.couponSystem.dto.request.RequestRegister;
 import com.net.couponSystem.dto.request.response.ResponseLogin;
@@ -51,6 +52,11 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.getCouponsByMaxPrice(prize, customerId), HttpStatus.OK);
     }
 
+    @PostMapping("coupons/category")
+    public ResponseEntity<?> getCouponsByMaxCategory(@RequestHeader("Authorization") String token, @RequestBody CustomerCouponsByCategory byCategory) {
+        return new ResponseEntity<>(customerService.getCouponsByCategory(byCategory.getCategory(), byCategory.getCustomerId()), HttpStatus.OK);
+    }
+
     @PostMapping(    value = "buy"
 //            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
 //            produces = {MediaType.APPLICATION_JSON_VALUE}
@@ -70,6 +76,7 @@ public class CustomerController {
     public ResponseEntity<?> getCustomerDetails(@RequestHeader("Authorization") String token, @RequestParam int customerId) {
         return new ResponseEntity<>(customerService.getCustomerDetails(customerId), HttpStatus.OK);
     }
+
 
     @PostMapping("register")
     public ResponseEntity<?> register(@RequestBody RequestRegister requestRegister) throws CouponsException, LoginException {
@@ -94,6 +101,8 @@ Customer customer = Customer.builder()
                 .build();
         return new ResponseEntity<>(responseLogin,HttpStatus.CREATED);
     }
+
+
 
 
 }

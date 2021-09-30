@@ -35,8 +35,8 @@ public class AdminController {
     }
 
     @GetMapping("customers/{customerID}")
-    public ResponseEntity<?> getOneCustomer(@RequestHeader("Authorization") String token, @PathVariable int customerID){
-        return new ResponseEntity<>(adminService.getOneCustomer(customerID),HttpStatus.OK);
+    public ResponseEntity<?> getOneCustomer(@RequestHeader("Authorization") String token, @PathVariable int customerId){
+        return new ResponseEntity<>(adminService.getOneCustomer(customerId),HttpStatus.OK);
     }
 
     @PutMapping("customers")
@@ -63,8 +63,8 @@ public class AdminController {
     }
 
     @GetMapping("company/{companyID}")
-    public ResponseEntity<?> getOneCompany(@RequestHeader("Authorization") String token,@PathVariable int companyID){
-        return new ResponseEntity<>(adminService.getOneCompany(companyID),HttpStatus.OK);
+    public ResponseEntity<?> getOneCompany(@RequestHeader("Authorization") String token,@PathVariable int companyId){
+        return new ResponseEntity<>(adminService.getOneCompany(companyId),HttpStatus.OK);
     }
 
     @DeleteMapping("companies/{companyID}")
@@ -72,5 +72,6 @@ public class AdminController {
         adminService.deleteCompany(companyID);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 
 }
