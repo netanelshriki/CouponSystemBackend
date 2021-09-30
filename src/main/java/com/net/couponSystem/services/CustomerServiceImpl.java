@@ -3,11 +3,14 @@ package com.net.couponSystem.services;
 import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.beans.Customer;
 import com.net.couponSystem.exceptions.CouponsException;
+import com.net.couponSystem.mapper.CouponDTO;
+import com.net.couponSystem.mapper.CouponMapper;
 import com.net.couponSystem.repos.CustomerRepository;
 import com.net.couponSystem.utils.DateUtils;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,8 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
     private int customerID;
     private String customerName;
 
+    @Autowired
+    private CouponMapper couponMapper;
 
     @Override
     public boolean login(String email, String password) throws LoginException {
@@ -44,8 +49,9 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
     }
 
     @Override
-    public List<Coupon> getCustomerCoupon(int customerId) {
-        return customerRepository.getOne(customerId).getCoupons();
+    public List<CouponDTO> getCustomerCoupon(int customerId) {
+        return couponMapper.toDtoList(customerRepository.getOne(customerId).getCoupons());
+
     }
 
     @Override
@@ -64,12 +70,12 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
         Customer customer = customerRepository.findById(customerId).orElseThrow(
                 () -> new CouponsException("Error,customer by the id: " + customerId + " does not exists"));
         List<Coupon> customerCoupons = customer.getCoupons();
-        System.out.println("customer: "+customer);
-        System.out.println("customer coupons: "+customerCoupons);
+        System.out.println("customer: " + customer);
+        System.out.println("customer coupons: " + customerCoupons);
         int couponId = coupon.getId();
-      //  System.out.println(couponRepository.getOne(couponId));
-       Coupon couponToBuy = couponRepository.getOne(couponId);
-              //  .orElseThrow(() -> new CouponsException("there is no coupon by the id: " + customerId));
+        //  System.out.println(couponRepository.getOne(couponId));
+        Coupon couponToBuy = couponRepository.getOne(couponId);
+        //  .orElseThrow(() -> new CouponsException("there is no coupon by the id: " + customerId));
         System.out.println(couponToBuy);
 //        if (coupon.getEndDate().before(coupon.getStartDate())) {
 //            throw new CouponsException("coupon by the id:" + couponId + " has already expired ");
@@ -85,7 +91,7 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
         coupon.setAmount(coupon.getAmount() - 1);
         customerCoupons.add(coupon);
         customer.setCoupons(customerCoupons);
-       customerRepository.save(customer);
+        customerRepository.save(customer);
         couponRepository.save(coupon);
         System.out.println("the coupon : " + couponId + " was purchased succesfully");
         return coupon;

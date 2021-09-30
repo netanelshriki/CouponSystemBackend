@@ -41,10 +41,14 @@ public class CompanyController {
     private final CouponService couponService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(     value = "coupon")
-//            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
-//            produces = {MediaType.APPLICATION_JSON_VALUE})
-   public CouponDTO addCoupon(@ModelAttribute CouponPayload payload) throws Exception {
+    @PostMapping(     value = "coupon",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+   public
+    @ResponseBody
+    CouponDTO addCoupon(@ModelAttribute CouponPayload payload) throws Exception {
+
+        System.out.println(payload);
         return couponService.addCoupon(payload);
     }
 

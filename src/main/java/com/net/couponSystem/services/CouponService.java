@@ -1,5 +1,6 @@
 package com.net.couponSystem.services;
 
+import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.controllers.model.CouponPayload;
 import com.net.couponSystem.mapper.CouponDTO;
 

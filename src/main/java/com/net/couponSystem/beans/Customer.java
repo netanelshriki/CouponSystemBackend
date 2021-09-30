@@ -26,7 +26,7 @@ public class Customer {
     private String lastName;
     private String email;
     private String password;
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @Singular
     private List<Coupon> coupons = new ArrayList<>();
     @Enumerated(EnumType.STRING)
