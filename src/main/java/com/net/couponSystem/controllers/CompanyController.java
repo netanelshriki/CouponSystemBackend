@@ -41,25 +41,19 @@ public class CompanyController {
     private final CouponService couponService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(     value = "coupon",
+    @PostMapping(value = "coupon",
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-   public
+    public
     @ResponseBody
-    CouponDTO addCoupon(@ModelAttribute CouponPayload payload) throws Exception {
-
-        System.out.println(payload);
+    CouponDTO addCoupon(@RequestHeader("Authorization") String token,@ModelAttribute CouponPayload payload) throws Exception {
+        System.out.println("coupon to add: "+payload);
         return couponService.addCoupon(payload);
     }
 
-    @GetMapping(
-            value = "coupons",
-            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE}
-    )
-    @ResponseStatus(code = HttpStatus.OK)
-    public List<Coupon> getCompanyCoupons(@RequestHeader("Authorization") String token, @RequestParam int companyID) {
-        return companyService.getCouponsCompanyByID(companyID);
+    @GetMapping("coupons")
+    public ResponseEntity<?> getCompanyCoupons(@RequestHeader("Authorization") String token, @RequestParam int companyId) {
+        return new ResponseEntity<>(companyService.getCouponsCompanyByID(companyId), HttpStatus.OK);
     }
 
 //    @GetMapping("coupons")
@@ -83,7 +77,7 @@ public class CompanyController {
 
     @DeleteMapping("coupons/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCoupon(@PathVariable int id) {
+    public void deleteCoupon(@RequestHeader("Authorization") String token ,@PathVariable int id) {
         couponService.deleteCoupon(id);
     }
 
@@ -93,10 +87,10 @@ public class CompanyController {
         return companyService.getCompanyDetails(companyID);
     }
 
-//    @PostMapping("coupon")
-//    public ResponseEntity<?> getCouponsByMaxPrize(@RequestHeader("Authorization") String token, @RequestBody ByMazPrize mazPrize) {
-//        return new ResponseEntity<>(companyService.getCouponsByMaxPrice(mazPrize.getPrize(), mazPrize.getCompanyId()), HttpStatus.OK);
-//    }
+    @PostMapping("coupon")
+    public ResponseEntity<?> getCouponsByMaxPrize(@RequestHeader("Authorization") String token, @RequestBody ByMazPrize mazPrize) {
+        return new ResponseEntity<>(companyService.getCouponsByMaxPrice(mazPrize.getPrize(), mazPrize.getCompanyId()), HttpStatus.OK);
+    }
 
     @PostMapping("category")
     public ResponseEntity<?> getCouponsByCategory(@RequestHeader("Authorization") String token, @RequestBody ByCategory category) {

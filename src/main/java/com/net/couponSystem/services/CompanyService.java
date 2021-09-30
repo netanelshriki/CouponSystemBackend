@@ -5,6 +5,7 @@ import com.net.couponSystem.beans.Company;
 import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.beans.Customer;
 import com.net.couponSystem.exceptions.CouponsException;
+import com.net.couponSystem.mapper.CouponDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +18,10 @@ public interface CompanyService {
     void deleteCompanyById(int companyID);
     Company getOneCompany(int CompanyID);
     Customer getOneCustomer(int customerID);
-    List<Coupon> getCouponsCompanyByID(int companyID);
+    List<CouponDTO> getCouponsCompanyByID(int companyId);
     Company getCompanyDetails(int companyID);
-    List<Coupon> getCouponsByMaxPrice(int maxPrice, int companyId);
-    List<Coupon> getCouponsCompanyByCategory(Category category, int companyId);
+    List<CouponDTO> getCouponsByMaxPrice(int maxPrice, int companyId);
+    List<CouponDTO> getCouponsCompanyByCategory(Category category, int companyId);
 
 
 }

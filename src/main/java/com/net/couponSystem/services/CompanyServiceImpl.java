@@ -5,6 +5,8 @@ import com.net.couponSystem.beans.Company;
 import com.net.couponSystem.beans.Coupon;
 import com.net.couponSystem.beans.Customer;
 import com.net.couponSystem.exceptions.CouponsException;
+import com.net.couponSystem.mapper.CouponDTO;
+import com.net.couponSystem.mapper.CouponMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Scope;
@@ -23,11 +25,12 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
     private String name;
     private int companyID;
 
+    private final CouponMapper couponMapper;
 
     @Override
     public boolean login(String email, String password) throws LoginException {
 
-        if ( !companyRepository.existsByEmailAndPassword(email, password)) {
+        if (!companyRepository.existsByEmailAndPassword(email, password)) {
             throw new LoginException("Error, Unable to logg in.. try again");
         }
         companyID = companyRepository.findByEmailAndPassword(email, password).getId();
@@ -69,8 +72,8 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
         return customerRepository.getOne(customerID);
     }
 
-    public List<Coupon> getCouponsCompanyByID(int companyID){
-        return companyRepository.findById(companyID).get().getCoupons();
+    public List<CouponDTO> getCouponsCompanyByID(int companyId) {
+        return couponMapper.toDtoList(companyRepository.findById(companyId).get().getCoupons());
     }
 
     @Override
@@ -79,21 +82,29 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
     }
 
     @Override
-    public List<Coupon> getCouponsByMaxPrice(int maxPrice, int companyId) {
-        List<Coupon> coupons = new ArrayList<>();
+    public List<CouponDTO> getCouponsByMaxPrice(int maxPrice, int companyId) {
+//        List<Coupon> coupons = new ArrayList<>();
+//        for (Coupon coupon : companyRepository.getOne(companyId).getCoupons()) {
+//            if (coupon.getPrice() < maxPrice) {
+//                coupons.add(coupon);
+//            }
+//        }
+//        return coupons;
+
+        List<CouponDTO> coupons = new ArrayList<>();
         for (Coupon coupon : companyRepository.getOne(companyId).getCoupons()) {
             if (coupon.getPrice() < maxPrice) {
-                coupons.add(coupon);
+                coupons.add(couponMapper.toDto(coupon));
             }
         }
         return coupons;
     }
 
-    public List<Coupon> getCouponsCompanyByCategory(Category category, int companyId){
-        List<Coupon> coupons = new ArrayList<>();
-        for (Coupon coupon:companyRepository.getOne(companyId).getCoupons()) {
-            if (coupon.getCategory()==category){
-                coupons.add(coupon);
+    public List<CouponDTO> getCouponsCompanyByCategory(Category category, int companyId) {
+        List<CouponDTO> coupons = new ArrayList<>();
+        for (Coupon coupon : companyRepository.getOne(companyId).getCoupons()) {
+            if (coupon.getCategory() == category) {
+                coupons.add(couponMapper.toDto(coupon));
             }
         }
         return coupons;

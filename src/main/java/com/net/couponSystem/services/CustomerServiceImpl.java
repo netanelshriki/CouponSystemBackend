@@ -55,11 +55,11 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
     }
 
     @Override
-    public List<Coupon> getCouponsByMaxPrice(int maxPrice, int customerId) {
-        List<Coupon> coupons = new ArrayList<>();
+    public List<CouponDTO> getCouponsByMaxPrice(int maxPrice, int customerId) {
+        List<CouponDTO> coupons = new ArrayList<>();
         for (Coupon coupon : customerRepository.getOne(customerId).getCoupons()) {
             if (coupon.getPrice() < maxPrice) {
-                coupons.add(coupon);
+                coupons.add(couponMapper.toDto(coupon));
             }
         }
         return coupons;
