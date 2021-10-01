@@ -76,6 +76,7 @@ public class AdminServiceImpl extends ClientService implements AdminService {
         return customerRepository.findAll();
     }
 
+
     @Override
     public Customer getOneCustomer(int customerId) {
         return customerRepository.getOne(customerId);
