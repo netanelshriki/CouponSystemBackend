@@ -80,24 +80,22 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
     @Override
     public Coupon buyCoupon(Coupon coupon, int customerId) throws CouponsException {
         Customer customer = customerRepository.findById(customerId).orElseThrow(
-                () -> new CouponsException("Error,customer by the id: " + customerId + " does not exists"));
+                () -> new CouponsException("this customer does not exists"));
         List<Coupon> customerCoupons = customer.getCoupons();
         System.out.println("customer: " + customer);
         System.out.println("customer coupons: " + customerCoupons);
         int couponId = coupon.getId();
-        //  System.out.println(couponRepository.getOne(couponId));
         Coupon couponToBuy = couponRepository.getOne(couponId);
         //  .orElseThrow(() -> new CouponsException("there is no coupon by the id: " + customerId));
-        System.out.println(couponToBuy);
-//        if (coupon.getEndDate().before(coupon.getStartDate())) {
-//            throw new CouponsException("coupon by the id:" + couponId + " has already expired ");
-//        }
+        if (coupon.getEndDate().before(coupon.getStartDate())) {
+            throw new CouponsException("coupon is expired ");
+        }
         if (coupon.getAmount() <= 0) {
-            throw new CouponsException("the coupon by the id: " + couponId + "is sold out");
+            throw new CouponsException("the coupon is sold out");
         }
         for (Coupon c : customerCoupons) {
             if (couponId == c.getId()) {
-                throw new CouponsException("Coupon was previously purchased");
+                throw new CouponsException("this coupon is already exist");
             }
         }
         coupon.setAmount(coupon.getAmount() - 1);
@@ -105,7 +103,7 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
         customer.setCoupons(customerCoupons);
         customerRepository.save(customer);
         couponRepository.save(coupon);
-        System.out.println("the coupon : " + couponId + " was purchased succesfully");
+        System.out.println("coupon added succesfully");
         return coupon;
     }
 

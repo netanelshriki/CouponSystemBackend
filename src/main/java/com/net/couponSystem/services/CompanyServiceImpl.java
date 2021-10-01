@@ -73,7 +73,15 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
     }
 
     public List<CouponDTO> getCouponsCompanyByID(int companyId) {
-        return couponMapper.toDtoList(companyRepository.findById(companyId).get().getCoupons());
+        List<CouponDTO> coupons = new ArrayList<>();
+        for (Coupon coupon: couponRepository.findAll()) {
+            if (coupon.getCompanyID()==companyId){
+                coupons.add(couponMapper.toDto(coupon));
+            }
+        }
+        return coupons;
+
+//        return couponMapper.toDtoList(companyRepository.findById(companyId).get().getCoupons());
     }
 
     @Override
@@ -92,8 +100,8 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
 //        return coupons;
 
         List<CouponDTO> coupons = new ArrayList<>();
-        for (Coupon coupon : companyRepository.getOne(companyId).getCoupons()) {
-            if (coupon.getPrice() < maxPrice) {
+        for (Coupon coupon : couponRepository.findAll()) {
+            if (coupon.getPrice() < maxPrice && coupon.getCompanyID()==companyId) {
                 coupons.add(couponMapper.toDto(coupon));
             }
         }
@@ -103,8 +111,8 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
     @Override
     public List<CouponDTO> getCouponsCompanyByCategory(Category category, int companyId) {
         List<CouponDTO> coupons = new ArrayList<>();
-        for (Coupon coupon : companyRepository.getOne(companyId).getCoupons()) {
-            if (coupon.getCategory() == category) {
+        for (Coupon coupon : couponRepository.findAll()) {
+            if (coupon.getCategory().equals(category)&& coupon.getCompanyID()==companyId) {
                 coupons.add(couponMapper.toDto(coupon));
             }
         }
