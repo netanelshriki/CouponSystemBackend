@@ -31,6 +31,7 @@ public class TokenManager {
                .clientService(clientService)
                 .build();
         map.put(token, info);
+
         System.out.println("from Add token map--------> " + map.get(token));
 
         return token;

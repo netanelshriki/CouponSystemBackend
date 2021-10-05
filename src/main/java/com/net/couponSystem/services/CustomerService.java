@@ -11,10 +11,9 @@ import org.springframework.stereotype.Service;
 import javax.security.auth.login.LoginException;
 import java.util.List;
 
-
+@Scope("prototype")
 public interface CustomerService {
 
-    boolean login(String email, String password) throws LoginException;
     List<CouponDTO> getCustomerCoupon(int customerId);
     List<CouponDTO> getCouponsByMaxPrice(int maxPrice,int customerId);
     Coupon buyCoupon(Coupon coupon, int customerId) throws CouponsException;

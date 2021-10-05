@@ -33,6 +33,13 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
     @Autowired
     private CouponMapper couponMapper;
 
+
+    public void setCustomerID(int customerID,String customerName) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+
+    }
+
     @Override
     public boolean login(String email, String password) throws LoginException {
         System.out.println(email);
@@ -42,8 +49,11 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
         if (!isLoggedIn) {
             throw new LoginException("Error, Unable to logg in.. try again");
         }
-        customerID = customerRepository.findByEmailAndPassword(email, password).getId();
-        customerName = customerRepository.findByEmailAndPassword(email, password).getFirstName();
+        this.customerID = customerRepository.findByEmailAndPassword(email, password).getId();
+        System.out.println("customer id: "+ customerID);
+        this.customerName = customerRepository.findByEmailAndPassword(email, password).getFirstName();
+        System.out.println("customer name: "+ customerName);
+
         System.out.println("the customer id is : " + customerID);
         return true;
 
@@ -51,6 +61,8 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
 
     @Override
     public List<CouponDTO> getCustomerCoupon(int customerId) {
+        System.out.println("customer id: "+ customerID);
+        System.out.println("customer name: "+ customerName);
         return couponMapper.toDtoList(customerRepository.getOne(customerId).getCoupons());
 
     }
@@ -63,6 +75,8 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
                 coupons.add(couponMapper.toDto(coupon));
             }
         }
+        System.out.println("customer id: "+ customerID);
+        System.out.println("customer name: "+ customerName);
         return coupons;
     }
 
@@ -74,6 +88,8 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
                 coupons.add(couponMapper.toDto(coupon));
             }
         }
+        System.out.println("customer id: "+ customerID);
+        System.out.println("customer name: "+ customerName);
         return coupons;
     }
 
@@ -104,6 +120,8 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
         customerRepository.save(customer);
         couponRepository.save(coupon);
         System.out.println("coupon added succesfully");
+        System.out.println("customer id: "+ customerID);
+        System.out.println("customer name: "+ customerName);
         return coupon;
     }
 

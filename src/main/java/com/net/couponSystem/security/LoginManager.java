@@ -43,10 +43,12 @@ public class LoginManager {
                     int customerId = ((CustomerServiceImpl) customerService).getCustomerID();
                     String name = ((CustomerServiceImpl)customerService).getCustomerName();
                     String token = tokenManager.createToken((ClientService) customerService, ClientType.CUSTOMER, customerId ,name);
+//                    ((CustomerServiceImpl) customerService).setCustomerID(customerId, name);
+
                     return token;
                 }
         }
-                throw new CouponsException("aaa");
+                throw new CouponsException("no user found");
         }
 
 }

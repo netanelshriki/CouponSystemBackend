@@ -8,10 +8,12 @@ import com.net.couponSystem.mapper.CouponDTO;
 import com.net.couponSystem.mapper.CouponMapper;
 import com.net.couponSystem.repos.CompanyRepository;
 import com.net.couponSystem.repos.CouponRepository;
+import com.net.couponSystem.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +33,15 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public CouponDTO addCoupon(CouponPayload payload) throws Exception {
 
+        if (payload.getAmount()<0){
+            throw new CouponsException("amount can not be less than zero");
+        }
+        if (payload.getStartDate().before(DateUtils.toSqlDate(LocalDateTime.now()))){
+            throw new CouponsException("coupon start date must be greater than today");
+        }
+
+
+
         CouponDTO couponDTO = CouponDTO.builder()
                 .companyID(payload.getCompanyID())
                 .category(payload.getCategory())
@@ -41,6 +52,8 @@ public class CouponServiceImpl implements CouponService {
                 .description(payload.getDescription())
                 .amount(payload.getAmount())
                 .build();
+
+
 
         UUID uuid = imageService.addImage(payload.getImage().getBytes());
 

@@ -1,5 +1,6 @@
 package com.net.couponSystem.controllers;
 
+import com.net.couponSystem.beans.Customer;
 import com.net.couponSystem.beans.Image;
 import com.net.couponSystem.controllers.model.CouponPayload;
 import com.net.couponSystem.dto.request.RequestLogin;
@@ -12,10 +13,13 @@ import com.net.couponSystem.security.Information;
 import com.net.couponSystem.security.LoginManager;
 import com.net.couponSystem.security.TokenManager;
 import com.net.couponSystem.services.CouponService;
+import com.net.couponSystem.services.CustomerService;
+import com.net.couponSystem.services.CustomerServiceImpl;
 import com.net.couponSystem.services.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +35,7 @@ import java.util.UUID;
 @RequestMapping(value = "client")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+//@Scope("prototype")
 public class ClientController {
 
     private final LoginManager loginManager;
@@ -46,9 +51,14 @@ public class ClientController {
     @Autowired
     private TokenManager tokenManager;
 
+    private CustomerService customerService;
+
+
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody RequestLogin requestLogin) throws CouponsException, LoginException {
         String token = loginManager.login(requestLogin.getEmail(), requestLogin.getPassword(), requestLogin.getClientType());
+//        Customer customer = customerRepository.findByEmailAndPassword(requestLogin.getEmail(), requestLogin.getPassword());
+//        ((CustomerServiceImpl) customerService).setCustomerID(customer.getId(), customer.getFirstName());
         Information information = tokenManager.getMap().get(token);
         System.out.println("from client info------->" + information);
 
