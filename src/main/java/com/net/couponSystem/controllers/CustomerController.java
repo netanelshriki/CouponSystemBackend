@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.LoginException;
 
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("customer")
 @RequiredArgsConstructor
