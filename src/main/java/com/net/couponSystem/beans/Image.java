@@ -25,7 +25,7 @@ public class Image {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
-    @Lob
+    //@Lob
     private byte[] image;
 
     public Image(byte[] image) {
